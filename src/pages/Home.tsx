@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useAppDispatch } from "../rtk/hook";
 import {addQuestIonInfo} from "../rtk/features/questionInfoSlice";
 import { Link } from "react-router-dom";
-import { useTheme,} from '@mui/material/styles';
 
 const categorys :string[]= ["Any Category","General Knowledge","Entertainment:Books","Entertainment:Film","Entertainment:Music","Entertainment:Musicals & Theaters","Entertainment:Television","Entertainment:Books","Entertainment:Video Games","Entertainment:Board Games","Science & Nature","Science:Computers","Science:Mathematics","Mythology","Sports","Geography","History","Politics","Art","Celebrities","Animals","Vehickes","Entertainment:Comics","Science:Gadgets","Entertainment:Anime","Entertainment:Cartoon"];
 
@@ -16,7 +15,7 @@ export type QuestionType = {
 
 
 function Home () {
-    const [isNumberValid,setIsNumberValid] =useState<boolean>(false);
+    const [isNumberValid,setIsNumberValid] =useState<boolean>(true);
     const dispatch = useAppDispatch();
     const [info,setInfo] =useState<QuestionType>({
         number : '10',
@@ -30,10 +29,10 @@ function Home () {
     const handleChangeNumber = (value:string) => {
         if(+value < 10) {
             setInfo({...info,"number":value});
-            setIsNumberValid(true);
+            setIsNumberValid(false);
         } else {
             setInfo({...info,"number":value});
-            setIsNumberValid(false);
+            setIsNumberValid(true);
         }
     };
     const handleChangeType = (event: SelectChangeEvent) => {
@@ -48,10 +47,10 @@ function Home () {
     return (
         <Box sx={{display:"flex",flexDirection:"column",p:"50px",justifyContent:"center",alignItems:"center"}}>
             <Typography variant="h2" sx={{fontWeight:"bold",m:"30px 0",textAlign:"center",fontSize:{xs:"40px",md:"60px"}}} color="primary" >Quiz App</Typography>
-            <Tooltip title="Number should be greater than 9" placement="top-start">
+            <Tooltip title="Number should be greater than 9" placement="top-start" arrow open={!isNumberValid}>
                 <TextField sx={{width:{xs:"250px",sm:"400px",md:"500px",lg:"600px"}}}
-                    color={`${isNumberValid ? "error" : "primary"}`}
-                    focused={isNumberValid}
+                    color={`${isNumberValid ? "primary" : "error"}`}
+                    focused={!isNumberValid}
                     id="outlined-number"
                     label="Number"
                     type="number"
@@ -116,9 +115,9 @@ function Home () {
                     </Select>
                 </FormControl>
             </Box>
-                <Link to="/question" style={{pointerEvents:`${isNumberValid ? "none" : "auto"}`}}>
+                <Link to="/question" style={{pointerEvents:`${isNumberValid ?"auto" :  "none"}`}}>
                     <Button  variant="contained" sx={{ width:{xs:"250px",sm:"400px",md:"500px",lg:"600px"},m:"10px 0 0 0" }}
-                    onClick={OnClickGetStart} disabled={isNumberValid}>Get Started</Button>
+                    onClick={OnClickGetStart} disabled={!isNumberValid}>Get Started</Button>
                 </Link>
         </Box>
     );
