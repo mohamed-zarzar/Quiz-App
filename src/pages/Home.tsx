@@ -50,7 +50,6 @@ function Home () {
             <Tooltip title="Number should be greater than 9" placement="top-start" arrow open={!isNumberValid}>
                 <TextField sx={{width:{xs:"250px",sm:"400px",md:"500px",lg:"600px"}}}
                     color={`${isNumberValid ? "primary" : "error"}`}
-                    focused={!isNumberValid}
                     id="outlined-number"
                     label="Number"
                     type="number"
