@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
 import { useAppDispatch } from "../rtk/hook";
 import {addQuestIonInfo} from "../rtk/features/questionInfoSlice";
@@ -48,23 +48,25 @@ function Home () {
     return (
         <Box sx={{display:"flex",flexDirection:"column",p:"50px",justifyContent:"center",alignItems:"center"}}>
             <Typography variant="h2" sx={{fontWeight:"bold",m:"30px 0",textAlign:"center",fontSize:{xs:"40px",md:"60px"}}} color="primary" >Quiz App</Typography>
-            <TextField sx={{width:{xs:"250px",sm:"400px",md:"500px",lg:"600px"}}}
-            color={`${isNumberValid ? "error" : "primary"}`}
-            focused={isNumberValid}
-            id="outlined-number"
-            label="Number"
-            type="number"
-            value={info.number}
-            InputProps={{ 
-                inputProps: {
-                    min:10 , max:50,
-                }
-            }}
-            onChange={(e)=>{handleChangeNumber(e.target.value)}}
-            InputLabelProps={{
-                shrink: true,
-            }}
-            />
+            <Tooltip title="Number should be greater than 9" placement="top-start">
+                <TextField sx={{width:{xs:"250px",sm:"400px",md:"500px",lg:"600px"}}}
+                    color={`${isNumberValid ? "error" : "primary"}`}
+                    focused={isNumberValid}
+                    id="outlined-number"
+                    label="Number"
+                    type="number"
+                    value={info.number}
+                    InputProps={{ 
+                        inputProps: {
+                            min:10 , max:50,
+                        }
+                    }}
+                    onChange={(e)=>{handleChangeNumber(e.target.value)}}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    />
+            </Tooltip>
             <Box sx={{ width:{xs:"250px",sm:"400px",md:"500px",lg:"600px"},m:"10px 0 0 0" }}>
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Category</InputLabel>
