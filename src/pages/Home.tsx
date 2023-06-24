@@ -13,10 +13,10 @@ export type QuestionType = {
     difficult: string,
     type:string,
 }
-// "easy" | "medium" | "hard" | "any",
+
 
 function Home () {
-    const theme = useTheme();
+    const [isNumberValid,setIsNumberValid] =useState<boolean>(false);
     const dispatch = useAppDispatch();
     const [info,setInfo] =useState<QuestionType>({
         number : '10',
@@ -28,7 +28,13 @@ function Home () {
         setInfo({...info,"category":event.target.value});
     };
     const handleChangeNumber = (value:string) => {
-        setInfo({...info,"number":value});
+        if(+value < 10) {
+            setInfo({...info,"number":value});
+            setIsNumberValid(true);
+        } else {
+            setInfo({...info,"number":value});
+            setIsNumberValid(false);
+        }
     };
     const handleChangeType = (event: SelectChangeEvent) => {
         setInfo({...info,"type":event.target.value});
@@ -43,6 +49,8 @@ function Home () {
         <Box sx={{display:"flex",flexDirection:"column",p:"50px",justifyContent:"center",alignItems:"center"}}>
             <Typography variant="h2" sx={{fontWeight:"bold",m:"30px 0",textAlign:"center",fontSize:{xs:"40px",md:"60px"}}} color="primary" >Quiz App</Typography>
             <TextField sx={{width:{xs:"250px",sm:"400px",md:"500px",lg:"600px"}}}
+            color={`${isNumberValid ? "error" : "primary"}`}
+            focused={isNumberValid}
             id="outlined-number"
             label="Number"
             type="number"
@@ -63,7 +71,7 @@ function Home () {
                     <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={info.category}
+                    value={`${+info.category+8}`}
                     label="info"
                     onChange={handleChangeCategoty}
                     >
@@ -106,9 +114,9 @@ function Home () {
                     </Select>
                 </FormControl>
             </Box>
-                <Link to="/question">
+                <Link to="/question" style={{pointerEvents:`${isNumberValid ? "none" : "auto"}`}}>
                     <Button  variant="contained" sx={{ width:{xs:"250px",sm:"400px",md:"500px",lg:"600px"},m:"10px 0 0 0" }}
-                    onClick={OnClickGetStart}>Get Started</Button>
+                    onClick={OnClickGetStart} disabled={isNumberValid}>Get Started</Button>
                 </Link>
         </Box>
     );
